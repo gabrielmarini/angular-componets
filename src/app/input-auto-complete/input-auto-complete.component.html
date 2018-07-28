@@ -1,0 +1,24 @@
+<div class="row" *ngFor="let row of settings.rows">
+    <div class="col-md-12" *ngIf="row.title"><h3>{{row.title}}</h3></div>
+    <div class="form-group" [ngClass]="input.layout.join(' ')" *ngFor="let input of row.inputs; let i = index;">
+        <label [for]="input.id">{{input.label}}</label>
+        <input  [ngClass]="{'is-invalid': (errors[i].name===input.name && errors[i].valid===false)}"
+                [(ngModel)]="input.value"
+                [id]="input.id"
+                [name]="input.name"
+                [type]="input.type"
+                [placeholder]="input.placeholder"
+                [class]="input.classCss.join(' ')"
+                (ngModelChange)="changeValue(input, i)">
+        <div class="invalid-feedback" *ngIf="(errors[i].name===input.name && errors[i].valid===false)">
+          Campo {{input.label}} obrigatório!
+        </div>
+    </div>
+</div>
+<div class="row" *ngFor="let button of settings.buttons">
+  <div class="col-md-12">
+    <button [type]="button.type" [ngClass]="button.classCss.join(' ')" (click)="clickFunction(button.type)">{{button.label}}</button>
+  </div>
+</div>
+
+{{errors | json}}
